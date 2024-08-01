@@ -1,0 +1,15 @@
+---
+label: "MatterLightSwitchOverThread_brd4186c_v442"
+quality: "production"
+description: "Matter workspace container both a Matter bootloader and Light Switch\
+  \ over Thread Example"
+project:
+- id: "application"
+  path: "MatterLightSwitchOverThread_brd4186c_v442.slcp"
+  output: "."
+- id: "bootloader"
+  path: "..\\Matter-Bootloader_4\\Matter-Bootloader_4.slcp"
+  output: "../Matter-Bootloader_4"
+post_build:
+  profile: ""
+  path: "MatterLightSwitchOverThread_brd4186c_v442.slpb"
