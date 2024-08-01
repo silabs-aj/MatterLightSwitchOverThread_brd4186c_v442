@@ -56,7 +56,7 @@ CHIP_ERROR SwitchHelpHandler(int argc, char ** argv)
     return CHIP_NO_ERROR;
 }
 
-CHIP_ERROR BindingTableReadHandler(int argc,char ** argv)
+CHIP_ERROR BindingTableBrowseHandler(int argc,char ** argv)
 {
     int error = streamer_init(streamer_get());
 
@@ -292,7 +292,7 @@ void RegisterSwitchCommands()
     };
 
     static const shell_command_t sSwitchBindingSubCommands[] = {
-        { &BindingTableReadHandler,"read","Read Binding table"},
+        { &BindingTableBrowseHandler,"browse","Browse Binding table"},
         { &BindingHelpHandler, "help", "Usage: switch binding <subcommand>" },
         { &BindingGroupBindCommandHandler, "group", "Usage: switch binding group <fabric index> <group id>" },
         { &BindingUnicastBindCommandHandler, "unicast", "Usage: switch binding group <fabric index> <node id> <endpoint>" }
