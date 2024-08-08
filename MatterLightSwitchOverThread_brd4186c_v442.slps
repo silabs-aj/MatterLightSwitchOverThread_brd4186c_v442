@@ -3,7 +3,7 @@
   <descriptors name="MatterLightSwitchOverThread_brd4186c_v442">
     <properties key="projectCommon.sdkId" value="com.silabs.sdk.stack.super:4.4.3._-1478327823"/>
     <properties key="universalConfig.relativeWorkspacePath" value="..\MatterLightSwitchOverThread_brd4186c_v442.slcw"/>
-    <properties key="universalConfig.generationDirectory" value="..\..\..\..\..\..\..\..\v5_workspace\MatterLightSwitchOverThread_brd4186c_v442"/>
+    <properties key="universalConfig.generationDirectory" value=""/>
     <properties key="universalConfig.toolchainCompatibility" value="gcc"/>
     <properties key="universalConfig.incrementalOverwriteConfigs" value="false"/>
     <properties key="projectCommon.boardIds" value="brd4186c:0.0.0.A01 brd4002a:0.0.0.A06"/>
