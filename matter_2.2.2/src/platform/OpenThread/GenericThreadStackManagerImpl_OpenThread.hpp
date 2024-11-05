@@ -2692,8 +2692,6 @@ CHIP_ERROR GenericThreadStackManagerImpl_OpenThread<ImplClass>::_DnsResolve(cons
     char fullServiceName[Dnssd::kDnssdTypeAndProtocolMaxSize + 1 + SrpClient::kDefaultDomainNameSize + 1];
     snprintf(fullServiceName, sizeof(fullServiceName), "%s.%s", aServiceName, SrpClient::kDefaultDomainName);
 
-    ChipLogProgress(DeviceLayer, "_DnsResolve : Instance Name = %s", aInstanceName);
-
     error = MapOpenThreadError(
         otDnsClientResolveService(mOTInst, aInstanceName, fullServiceName, OnDnsResolveResult, aContext, defaultConfig));
 

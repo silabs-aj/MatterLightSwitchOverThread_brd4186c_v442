@@ -145,7 +145,7 @@ CHIP_ERROR ResolveHandler(int argc, char ** argv)
     streamer_printf(streamer_get(), "Resolving ...\r\n");
 
     AddressResolve::NodeLookupRequest request(
-        PeerId().SetCompressedFabricId(strtoull(argv[0], nullptr, 16)).SetNodeId(strtoull(argv[1], nullptr, 16)));
+        PeerId().SetCompressedFabricId(strtoull(argv[0], nullptr, 10)).SetNodeId(strtoull(argv[1], nullptr, 10)));
 
     return AddressResolve::Resolver::Instance().LookupNode(request, sDnsShellResolverDelegate.Handle());
 }

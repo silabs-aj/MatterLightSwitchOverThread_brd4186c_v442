@@ -70,8 +70,8 @@ CHIP_ERROR BindingTableBrowseHandler(int argc,char ** argv)
 
     for (const EmberBindingTableEntry & entry : BindingTable::GetInstance())
     {
-        streamer_printf(streamer_get(),"clusterId = %d nodeid = %d fabricIndex = %d ",entry.clusterId.Value(),entry.nodeId,,entry.fabricIndex);
-//        streamer_printf(streamer_get(), "fabricindex =  %d\n", entry.fabricIndex);
+        streamer_printf(streamer_get(), "nodeid =  %d\n", entry.nodeId);
+        streamer_printf(streamer_get(), "fabricindex =  %d\n", entry.fabricIndex);
     } 
 
     return CHIP_NO_ERROR;

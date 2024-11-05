@@ -58,13 +58,10 @@
 #include "uart.h"
 #endif
 
-
 // Enable RTT by default
-
 #ifndef SILABS_LOG_OUT_RTT
 #define SILABS_LOG_OUT_RTT 1
 #endif
-
 
 // SEGGER_RTT includes
 #if SILABS_LOG_OUT_RTT

@@ -24,7 +24,7 @@
 #endif
 // <q> CSL Auto Synchronization using data polling
 #ifndef OPENTHREAD_CONFIG_MAC_CSL_AUTO_SYNC_ENABLE
-#define OPENTHREAD_CONFIG_MAC_CSL_AUTO_SYNC_ENABLE  0
+#define OPENTHREAD_CONFIG_MAC_CSL_AUTO_SYNC_ENABLE  1
 #endif
 // <q>  CSL (Coordinated Sampled Listening) Debug
 #ifndef OPENTHREAD_CONFIG_MAC_CSL_DEBUG_ENABLE
@@ -32,7 +32,7 @@
 #endif
 // <q>  CSL (Coordinated Sampled Listening) Receiver
 #ifndef OPENTHREAD_CONFIG_MAC_CSL_RECEIVER_ENABLE
-#define OPENTHREAD_CONFIG_MAC_CSL_RECEIVER_ENABLE   0
+#define OPENTHREAD_CONFIG_MAC_CSL_RECEIVER_ENABLE   1
 #endif
 // <o SL_OPENTHREAD_CSL_TX_UNCERTAINTY> CSL Scheduling Uncertainty (±10 us units) <12..999:1>
 #ifndef SL_OPENTHREAD_CSL_TX_UNCERTAINTY
@@ -46,19 +46,19 @@
 #endif
 // <q>  DUA (Domain Unicast Address)
 #ifndef OPENTHREAD_CONFIG_DUA_ENABLE
-#define OPENTHREAD_CONFIG_DUA_ENABLE                0
+#define OPENTHREAD_CONFIG_DUA_ENABLE                1
 #endif
 // <q>  Link Metrics Initiator
 #ifndef OPENTHREAD_CONFIG_MLE_LINK_METRICS_INITIATOR_ENABLE
-#define OPENTHREAD_CONFIG_MLE_LINK_METRICS_INITIATOR_ENABLE 0
+#define OPENTHREAD_CONFIG_MLE_LINK_METRICS_INITIATOR_ENABLE 1
 #endif
 // <q>  Link Metrics Subject
 #ifndef OPENTHREAD_CONFIG_MLE_LINK_METRICS_SUBJECT_ENABLE
-#define OPENTHREAD_CONFIG_MLE_LINK_METRICS_SUBJECT_ENABLE 0
+#define OPENTHREAD_CONFIG_MLE_LINK_METRICS_SUBJECT_ENABLE 1
 #endif
 // <q>  Multicast Listener Registration
 #ifndef OPENTHREAD_CONFIG_MLR_ENABLE
-#define OPENTHREAD_CONFIG_MLR_ENABLE                0
+#define OPENTHREAD_CONFIG_MLR_ENABLE                1
 #endif
 // <q>  DNS Client (Thread 1.3)
 #ifndef OPENTHREAD_CONFIG_DNS_CLIENT_ENABLE
@@ -277,7 +277,7 @@
 //      <OPENTHREAD_CONFIG_LOG_OUTPUT_PLATFORM_DEFINED => PLATFORM_DEFINED
 // <i>  Default: OPENTHREAD_CONFIG_LOG_OUTPUT_PLATFORM_DEFINED
 #ifndef OPENTHREAD_CONFIG_LOG_OUTPUT
-#define OPENTHREAD_CONFIG_LOG_OUTPUT OPENTHREAD_CONFIG_LOG_OUTPUT_NONE
+#define OPENTHREAD_CONFIG_LOG_OUTPUT OPENTHREAD_CONFIG_LOG_OUTPUT_APP
 #endif
 
 // <q>  DYNAMIC_LOG_LEVEL
@@ -286,7 +286,7 @@
 #endif
 
 // <e>  Enable Logging
-#define OPENTHREAD_FULL_LOGS_ENABLE                 1
+#define OPENTHREAD_FULL_LOGS_ENABLE                 0
 #if     OPENTHREAD_FULL_LOGS_ENABLE
 
 // <h>  Note: Enabling higher log levels, which include logging packet details, can cause delays which may result in join failures.

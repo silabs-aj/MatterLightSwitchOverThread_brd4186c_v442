@@ -999,8 +999,6 @@ Error Client::StartQuery(QueryInfo &aInfo, const char *aLabel, const char *aName
     }
 #endif
 
-    LogWarn("StartQuery: Label name, Service name:%s %s",aLabel,aName);
-
     SuccessOrExit(error = AllocateQuery(aInfo, aLabel, aName, query));
 
     mMainQueries.Enqueue(*query);
