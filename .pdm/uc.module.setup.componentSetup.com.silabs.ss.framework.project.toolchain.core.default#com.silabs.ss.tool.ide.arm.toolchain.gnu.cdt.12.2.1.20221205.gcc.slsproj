@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="uc.module.setup.componentSetup.com.silabs.ss.framework.project.toolchain.core.default#com.silabs.ss.tool.ide.arm.toolchain.gnu.cdt:12.2.1.20221205.gcc" propertyScope="project">
   <folder name="src">
-    <file name="AppTask.cpp" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/src/AppTask.cpp"/>
-    <file name="main.cpp" linked="false" uri="studio:/sdk/extension/matter_extension/examples/platform/silabs/main.cpp"/>
-    <file name="ZclCallbacks.cpp" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/src/ZclCallbacks.cpp"/>
-    <file name="BindingHandler.cpp" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/src/BindingHandler.cpp"/>
-    <file name="LightSwitchMgr.cpp" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/src/LightSwitchMgr.cpp"/>
-    <file name="ShellCommands.cpp" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/src/ShellCommands.cpp"/>
+    <file name="AppTask.cpp" linked="false" uri="studio:/project/src/AppTask.cpp"/>
+    <file name="main.cpp" linked="false" uri="studio:/project/src/main.cpp"/>
+    <file name="ZclCallbacks.cpp" linked="false" uri="studio:/project/src/ZclCallbacks.cpp"/>
+    <file name="BindingHandler.cpp" linked="false" uri="studio:/project/src/BindingHandler.cpp"/>
+    <file name="LightSwitchMgr.cpp" linked="false" uri="studio:/project/src/LightSwitchMgr.cpp"/>
+    <file name="ShellCommands.cpp" linked="false" uri="studio:/project/src/ShellCommands.cpp"/>
   </folder>
   <folder name="include">
-    <file name="AppConfig.h" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/include/AppConfig.h"/>
-    <file name="AppEvent.h" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/include/AppEvent.h"/>
-    <file name="AppTask.h" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/include/AppTask.h"/>
-    <file name="CHIPProjectConfig.h" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/include/CHIPProjectConfig.h"/>
-    <file name="BindingHandler.h" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/include/BindingHandler.h"/>
-    <file name="LightSwitchMgr.h" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/include/LightSwitchMgr.h"/>
-    <file name="ShellCommands.h" linked="false" uri="studio:/sdk/extension/matter_extension/examples/light-switch-app/silabs/include/ShellCommands.h"/>
+    <file name="AppConfig.h" linked="false" uri="studio:/project/include/AppConfig.h"/>
+    <file name="AppEvent.h" linked="false" uri="studio:/project/include/AppEvent.h"/>
+    <file name="AppTask.h" linked="false" uri="studio:/project/include/AppTask.h"/>
+    <file name="CHIPProjectConfig.h" linked="false" uri="studio:/project/include/CHIPProjectConfig.h"/>
+    <file name="BindingHandler.h" linked="false" uri="studio:/project/include/BindingHandler.h"/>
+    <file name="LightSwitchMgr.h" linked="false" uri="studio:/project/include/LightSwitchMgr.h"/>
+    <file name="ShellCommands.h" linked="false" uri="studio:/project/include/ShellCommands.h"/>
   </folder>
   <folder name="matter_2.2.2">
     <folder name="src">
@@ -1489,11 +1489,14 @@
         <folder name="iostream">
           <folder name="src">
             <file name="sl_iostream.c" linked="false" uri="studio:/sdk/platform/service/iostream/src/sl_iostream.c"/>
+            <file name="sl_iostream_retarget_stdio.c" linked="false" uri="studio:/sdk/platform/service/iostream/src/sl_iostream_retarget_stdio.c"/>
             <file name="sl_iostream_rtt.c" linked="false" uri="studio:/sdk/platform/service/iostream/src/sl_iostream_rtt.c"/>
+            <file name="sl_iostream_stdlib_config.c" linked="false" uri="studio:/sdk/platform/service/iostream/src/sl_iostream_stdlib_config.c"/>
           </folder>
           <folder name="inc">
             <file name="sl_iostream.h" linked="false" uri="studio:/sdk/platform/service/iostream/inc/sl_iostream.h"/>
             <file name="sl_iostream_rtt.h" linked="false" uri="studio:/sdk/platform/service/iostream/inc/sl_iostream_rtt.h"/>
+            <file name="sl_iostream_stdlib_config.h" linked="false" uri="studio:/sdk/platform/service/iostream/inc/sl_iostream_stdlib_config.h"/>
           </folder>
         </folder>
         <folder name="mpu">
@@ -1914,6 +1917,17 @@
             <folder name="rail_util_sequencer">
               <file name="sl_rail_util_sequencer.c" linked="false" uri="studio:/sdk/platform/radio/rail_lib/plugin/rail_util_sequencer/sl_rail_util_sequencer.c"/>
             </folder>
+          </folder>
+        </folder>
+      </folder>
+    </folder>
+    <folder name="app">
+      <folder name="common">
+        <folder name="util">
+          <folder name="app_log">
+            <file name="app_log.c" linked="false" uri="studio:/sdk/app/common/util/app_log/app_log.c"/>
+            <file name="app_log.h" linked="false" uri="studio:/sdk/app/common/util/app_log/app_log.h"/>
+            <file name="sl_app_log.h" linked="false" uri="studio:/sdk/app/common/util/app_log/sl_app_log.h"/>
           </folder>
         </folder>
       </folder>
@@ -3058,7 +3072,7 @@
       </folder>
     </folder>
   </folder>
-  <file name="README.md" linked="false" uri="studio:/sdk/extension/matter_extension/slc/sample-app/light-switch-app/efr32/README.md"/>
+  <file name="README.md" linked="false" uri="studio:/project/README.md"/>
   <includePath uri="studio:/project/include"/>
   <includePath uri="studio:/project/matter_2.2.2/examples/lighting-app/silabs/include"/>
   <includePath uri="studio:/project/matter_2.2.2/examples/platform/silabs"/>
@@ -3137,6 +3151,7 @@
   <includePath uri="studio:/project/matter_2.2.2/src/app/clusters/time-synchronization-server"/>
   <includePath uri="studio:/project/matter_2.2.2/src/tracing"/>
   <includePath uri="studio:/project/gecko_sdk_4.4.3/platform/Device/SiliconLabs/EFR32MG24/Include"/>
+  <includePath uri="studio:/project/gecko_sdk_4.4.3/app/common/util/app_log"/>
   <includePath uri="studio:/project/gecko_sdk_4.4.3/platform/common/inc"/>
   <includePath uri="studio:/project/gecko_sdk_4.4.3/protocol/bluetooth/bgcommon/inc"/>
   <includePath uri="studio:/project/gecko_sdk_4.4.3/protocol/bluetooth/inc"/>

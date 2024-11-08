@@ -18,6 +18,7 @@
 
 #include "app-common/zap-generated/ids/Clusters.h"
 #include "app-common/zap-generated/ids/Commands.h"
+#include "app-common/zap-generated/cluster-objects.h"
 #include "lib/core/CHIPError.h"
 
 CHIP_ERROR InitBindingHandler();

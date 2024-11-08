@@ -1,6 +1,7 @@
 #CRC Codes for initially generated config files -- do not modify!
 FreeRTOSConfig.h=418287150
 SEGGER_RTT_Conf.h=826299495
+app_log_config.h=-1893283838
 app_properties_config.h=-763091270
 btconf/gatt_configuration.btconf=-602057060
 btl_interface_cfg.h=-1719664633
@@ -24,6 +25,7 @@ sl_device_init_hfxo_config.h=-188831441
 sl_device_init_lfrco_config.h=838945568
 sl_device_init_lfxo_config.h=-1178617140
 sl_hfxo_manager_config.h=1606678224
+sl_iostream_eusart_vcom_config.h=486986062
 sl_matter_config.h=199988935
 sl_matter_icd_config.h=-227433567
 sl_matter_ota_config.h=206246822

@@ -54,13 +54,22 @@
 #define LOG_RTT_BUFFER_SIZE 256
 #endif
 
+#define SILABS_LOG_OUT_UART 1
+
 #if SILABS_LOG_OUT_UART
 #include "uart.h"
 #endif
 
+// Enable USART by default
+#ifndef SILABS_LOG_OUT_UART
+#define SILABS_LOG_OUT_UART 1
+#endif
+
+
+
 // Enable RTT by default
 #ifndef SILABS_LOG_OUT_RTT
-#define SILABS_LOG_OUT_RTT 1
+#define SILABS_LOG_OUT_RTT 0
 #endif
 
 // SEGGER_RTT includes

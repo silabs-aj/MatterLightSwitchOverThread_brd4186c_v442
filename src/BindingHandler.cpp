@@ -22,12 +22,15 @@
 #include "app/clusters/bindings/BindingManager.h"
 #include "app/server/Server.h"
 #include "controller/InvokeInteraction.h"
+#include "controller/ReadInteraction.h"
 #include "platform/CHIPDeviceLayer.h"
 #include <app/clusters/bindings/bindings.h>
 #include <lib/support/CodeUtils.h>
+#include "../../autogen/zap-generated/app-common/zap-generated/cluster-objects.h"
 
 using namespace chip;
 using namespace chip::app;
+
 
 namespace {
 
@@ -42,11 +45,26 @@ void ProcessOnOffUnicastBindingCommand(CommandId commandId, const EmberBindingTa
         ChipLogError(NotSpecified, "OnOff command failed: %" CHIP_ERROR_FORMAT, error.Format());
     };
 
+ //   Clusters::OnOff::Attributes::TypeInfo::DecodableType
+
+
+/*
+    using OnSuccessCallbackType =
+            std::function<void(const app::ConcreteDataAttributePath & aPath, const Clusters::OnOff::Attributes::OnOff::TypeInfo & aData)>;
+*/
+
+    auto onReportAttribute = [](const app::ConcreteDataAttributePath & aPath, const Clusters::OnOff::Attributes::OnOff::TypeInfo::Type & aData) {
+            ChipLogProgress(NotSpecified, "Subscribe Success");
+        };
+
     switch (commandId)
     {
     case Clusters::OnOff::Commands::Toggle::Id:
-        Clusters::OnOff::Commands::Toggle::Type toggleCommand;
-        Controller::InvokeCommandRequest(exchangeMgr, sessionHandle, binding.remote, toggleCommand, onSuccess, onFailure);
+//        Clusters::OnOff::Commands::Toggle::Type toggleCommand;
+
+        Controller::SubscribeAttribute<Clusters::OnOff::Attributes::OnOff::TypeInfo::Type>(exchangeMgr,sessionHandle,binding.remote,binding.clusterId.Value(),0,onReportAttribute,nullptr,1,10,nullptr,nullptr,true,true);
+        ChipLogProgress(NotSpecified, "SubscribeAttribute");
+ //       Controller::InvokeCommandRequest(exchangeMgr, sessionHandle, binding.remote, toggleCommand, onSuccess, onFailure);
         break;
 
     case Clusters::OnOff::Commands::On::Id:

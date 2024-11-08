@@ -74,6 +74,7 @@ component:
 - {from: matter, id: matter_wstk_leds}
 - {from: matter, id: silabs_factory_data_provider}
 - {id: EFR32MG24B210F1536IM48}
+- {id: app_log}
 - {id: brd4002a}
 - {id: brd4186c}
 - {id: device_init}

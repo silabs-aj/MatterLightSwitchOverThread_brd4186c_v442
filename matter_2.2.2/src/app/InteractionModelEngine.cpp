@@ -903,6 +903,7 @@ CHIP_ERROR InteractionModelEngine::OnMessageReceived(Messaging::ExchangeContext 
 #if CHIP_CONFIG_ENABLE_READ_CLIENT
     else if (aPayloadHeader.HasMessageType(Protocols::InteractionModel::MsgType::ReportData))
     {
+        ChipLogDetail(InteractionModel, "Unsolicited Report Received report ");
         status = OnUnsolicitedReportData(apExchangeContext, aPayloadHeader, std::move(aPayload));
     }
 #endif // CHIP_CONFIG_ENABLE_READ_CLIENT
