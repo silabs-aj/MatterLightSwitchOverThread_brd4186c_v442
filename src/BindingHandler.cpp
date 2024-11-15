@@ -54,16 +54,20 @@ void ProcessOnOffUnicastBindingCommand(CommandId commandId, const EmberBindingTa
 */
 
     auto onReportAttribute = [](const app::ConcreteDataAttributePath & aPath, const Clusters::OnOff::Attributes::OnOff::TypeInfo::Type & aData) {
-            ChipLogProgress(NotSpecified, "Subscribe Success");
+            ChipLogProgress(NotSpecified, "onReportAttr Callback");
         };
+
+    auto onDone = [](const SessionHandle & sessionHandle) {
+                ChipLogProgress(NotSpecified,"%s :: onDone",__func__);
+            };
 
     switch (commandId)
     {
     case Clusters::OnOff::Commands::Toggle::Id:
 //        Clusters::OnOff::Commands::Toggle::Type toggleCommand;
 
-        Controller::SubscribeAttribute<Clusters::OnOff::Attributes::OnOff::TypeInfo::Type>(exchangeMgr,sessionHandle,binding.remote,binding.clusterId.Value(),0,onReportAttribute,nullptr,1,10,nullptr,nullptr,true,true);
-        ChipLogProgress(NotSpecified, "SubscribeAttribute");
+        Controller::SubscribeAttribute<Clusters::OnOff::Attributes::OnOff::TypeInfo::Type>(exchangeMgr,sessionHandle,binding.remote,binding.clusterId.Value(),0,onReportAttribute,nullptr,1,60,nullptr,nullptr,true,onDone);
+        ChipLogProgress(NotSpecified, "Send SubscribeAttribute");
  //       Controller::InvokeCommandRequest(exchangeMgr, sessionHandle, binding.remote, toggleCommand, onSuccess, onFailure);
         break;
 

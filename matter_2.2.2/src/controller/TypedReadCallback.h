@@ -250,6 +250,8 @@ private:
             mOnDone(apReadClient);
         }
 
+        ChipLogProgress(NotSpecified, "TypedReadCallback :: onDone");
+
         // Always needs to be the last call
         chip::Platform::Delete(this);
     }

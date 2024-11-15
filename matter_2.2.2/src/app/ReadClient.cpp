@@ -430,54 +430,56 @@ CHIP_ERROR ReadClient::GenerateDataVersionFilterList(DataVersionFilterIBs::Build
 CHIP_ERROR ReadClient::OnMessageReceived(Messaging::ExchangeContext * apExchangeContext, const PayloadHeader & aPayloadHeader,
                                          System::PacketBufferHandle && aPayload)
 {
-    CHIP_ERROR err = CHIP_NO_ERROR;
-    Status status  = Status::InvalidAction;
+  CHIP_ERROR err = CHIP_NO_ERROR;
+      Status status  = Status::InvalidAction;
+      ChipLogProgress(DataManagement,"OnMessageReceived :: ReadClient - state = %s",GetStateStr());
+      VerifyOrExit(!IsIdle(), err = CHIP_ERROR_INCORRECT_STATE);
 
-    ChipLogProgress(DataManagement, "OnMessageReceived in ReadClient");
+//    ChipLogProgress(DataManagement,"OnMessageReceived :: ReadClient - state = %s",GetStateStr());
 
-    VerifyOrExit(!IsIdle(), err = CHIP_ERROR_INCORRECT_STATE);
+      if (aPayloadHeader.HasMessageType(Protocols::InteractionModel::MsgType::ReportData))
+      {
+          ChipLogProgress(DataManagement, "InteractionModel status = ReportData in OnMessageReceived::ReadClient %s",__func__);
+          err = ProcessReportData(std::move(aPayload), ReportType::kContinuingTransaction);
+      }
+      else if (aPayloadHeader.HasMessageType(Protocols::InteractionModel::MsgType::SubscribeResponse))
+      {
+          ChipLogProgress(DataManagement, "InteractionModel status = SubscribeResponse in %s",__func__);
+          VerifyOrExit(apExchangeContext == mExchange.Get(), err = CHIP_ERROR_INCORRECT_STATE);
+          err = ProcessSubscribeResponse(std::move(aPayload));
+      }
+      else if (aPayloadHeader.HasMessageType(Protocols::InteractionModel::MsgType::StatusResponse))
+      {
+          ChipLogProgress(DataManagement, "InteractionModel Status = StatusResponse in %s",__func__);
+          VerifyOrExit(apExchangeContext == mExchange.Get(), err = CHIP_ERROR_INCORRECT_STATE);
+          ChipLogProgress(DataManagement, "InteractionModel Status = StatusResponse in  %s,Exchange still there",__func__);
+          CHIP_ERROR statusError = CHIP_NO_ERROR;
+          SuccessOrExit(err = StatusResponse::ProcessStatusResponse(std::move(aPayload), statusError));
+          SuccessOrExit(err = statusError);
+          err = CHIP_ERROR_INVALID_MESSAGE_TYPE;
+      }
+      else
+      {
+          err = CHIP_ERROR_INVALID_MESSAGE_TYPE;
+      }
 
+  exit:
+      if (err != CHIP_NO_ERROR)
+      {
+          if (err == CHIP_ERROR_INVALID_SUBSCRIPTION)
+          {
+              status = Status::InvalidSubscription;
+          }
+          StatusResponse::Send(status, apExchangeContext, false /*aExpectResponse*/);
+      }
 
-    if (aPayloadHeader.HasMessageType(Protocols::InteractionModel::MsgType::ReportData))
-    {
-        ChipLogProgress(DataManagement, "Report Data is received in ReadClient");
-        err = ProcessReportData(std::move(aPayload), ReportType::kContinuingTransaction);
-    }
-    else if (aPayloadHeader.HasMessageType(Protocols::InteractionModel::MsgType::SubscribeResponse))
-    {
-        ChipLogProgress(DataManagement, "SubscribeResponse is received");
-        VerifyOrExit(apExchangeContext == mExchange.Get(), err = CHIP_ERROR_INCORRECT_STATE);
-        err = ProcessSubscribeResponse(std::move(aPayload));
-    }
-    else if (aPayloadHeader.HasMessageType(Protocols::InteractionModel::MsgType::StatusResponse))
-    {
-        VerifyOrExit(apExchangeContext == mExchange.Get(), err = CHIP_ERROR_INCORRECT_STATE);
-        CHIP_ERROR statusError = CHIP_NO_ERROR;
-        SuccessOrExit(err = StatusResponse::ProcessStatusResponse(std::move(aPayload), statusError));
-        SuccessOrExit(err = statusError);
-        err = CHIP_ERROR_INVALID_MESSAGE_TYPE;
-    }
-    else
-    {
-        err = CHIP_ERROR_INVALID_MESSAGE_TYPE;
-    }
+      if ((!IsSubscriptionType() && !mPendingMoreChunks) || err != CHIP_NO_ERROR)
+      {
+          Close(err);
+      }
 
-exit:
-    if (err != CHIP_NO_ERROR)
-    {
-        if (err == CHIP_ERROR_INVALID_SUBSCRIPTION)
-        {
-            status = Status::InvalidSubscription;
-        }
-        StatusResponse::Send(status, apExchangeContext, false /*aExpectResponse*/);
-    }
-
-    if ((!IsSubscriptionType() && !mPendingMoreChunks) || err != CHIP_NO_ERROR)
-    {
-        Close(err);
-    }
-
-    return err;
+      ChipLogProgress(DataManagement,"OnMessageReceived :: ReadClient Exit -  state = %s",GetStateStr());
+      return err;
 }
 
 void ReadClient::OnUnsolicitedReportData(Messaging::ExchangeContext * apExchangeContext, System::PacketBufferHandle && aPayload)
@@ -678,7 +680,7 @@ CHIP_ERROR ReadClient::ProcessAttributeReportIBs(TLV::TLVReader & aAttributeRepo
         TLV::TLVReader reader = aAttributeReportIBsReader;
         ReturnErrorOnFailure(report.Init(reader));
 
-        ChipLogProgress(DataManagement,"OnAttributeData");
+        ChipLogProgress(DataManagement,"ReadClient :: OnAttributeData");
         err = report.GetAttributeStatus(&status);
         if (CHIP_NO_ERROR == err)
         {

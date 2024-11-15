@@ -842,7 +842,9 @@ Status InteractionModelEngine::OnUnsolicitedReportData(Messaging::ExchangeContex
 
         if (!foundSubscription)
         {
+            ChipLogProgress(InteractionModel, "Found subscription of ReadClient :: %s",__func__);
             foundSubscription = readClient;
+            ChipLogProgress(InteractionModel, "ReadClient founded in %s, ReadClient State = %s ",__func__,readClient->GetStateStr());
         }
     }
 
@@ -903,7 +905,7 @@ CHIP_ERROR InteractionModelEngine::OnMessageReceived(Messaging::ExchangeContext 
 #if CHIP_CONFIG_ENABLE_READ_CLIENT
     else if (aPayloadHeader.HasMessageType(Protocols::InteractionModel::MsgType::ReportData))
     {
-        ChipLogDetail(InteractionModel, "Unsolicited Report Received report ");
+        ChipLogDetail(InteractionModel, "%s - Unsolicited Report Received report",__func__);
         status = OnUnsolicitedReportData(apExchangeContext, aPayloadHeader, std::move(aPayload));
     }
 #endif // CHIP_CONFIG_ENABLE_READ_CLIENT

@@ -235,6 +235,8 @@ void BufferedReadCallback::OnAttributeData(const ConcreteDataAttributePath & aPa
     // First, let's dispatch to our registered callback any buffered up list data from previous calls.
     //
 
+    ChipLogProgress(NotSpecified, "From OnAttribute of BufferedReadCallback to OnAttribute of TypedReadAttributeCallback");
+
     err = DispatchBufferedData(aPath, aStatus);
     SuccessOrExit(err);
 

@@ -256,6 +256,8 @@ void ExchangeManager::OnMessageReceived(const PacketHeader & packetHeader, const
         if (found)
         {
             return;
+        }else{
+            ChipLogProgress(ExchangeManager, "Can't find matched Exchange: %s",__func__);
         }
     }
     else
