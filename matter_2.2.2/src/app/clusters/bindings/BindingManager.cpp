@@ -21,6 +21,7 @@
 #include <lib/support/CHIPMem.h>
 #include <lib/support/CodeUtils.h>
 
+
 namespace {
 
 class BindingFabricTableDelegate : public chip::FabricTable::Delegate
@@ -134,6 +135,7 @@ void BindingManager::HandleDeviceConnected(Messaging::ExchangeManager & exchange
     FabricIndex fabricToRemove = kUndefinedFabricIndex;
     NodeId nodeToRemove        = kUndefinedNodeId;
 
+    ChipLogProgress(AppServer,"BindingManager::%s",__FUNCTION__);
     // Note: not using a const ref here, because the mPendingNotificationMap
     // iterator returns things by value anyway.
     for (PendingNotificationEntry pendingNotification : mPendingNotificationMap)

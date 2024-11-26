@@ -27,6 +27,7 @@
 #include <app/clusters/bindings/bindings.h>
 #include <lib/support/CodeUtils.h>
 #include "../../autogen/zap-generated/app-common/zap-generated/cluster-objects.h"
+//#include <boost/type_index.hpp>
 
 using namespace chip;
 using namespace chip::app;
@@ -109,6 +110,7 @@ void ProcessOnOffGroupBindingCommand(CommandId commandId, const EmberBindingTabl
 
 void LightSwitchChangedHandler(const EmberBindingTableEntry & binding, OperationalDeviceProxy * peer_device, void * context)
 {
+    ChipLogProgress(NotSpecified,"LightSwitchChanged Handle :: %s",__FUNCTION__);
     VerifyOrReturn(context != nullptr, ChipLogError(NotSpecified, "OnDeviceConnectedFn: context is null"));
     BindingCommandData * data = static_cast<BindingCommandData *>(context);
 

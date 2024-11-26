@@ -409,6 +409,8 @@ void OperationalSessionSetup::OnSessionEstablished(const SessionHandle & session
     VerifyOrReturn(mState == State::Connecting,
                    ChipLogError(Discovery, "OnSessionEstablished was called while we were not connecting"));
 
+    ChipLogProgress(Discovery,"OperationalSessionSet :: %s Activated",__FUNCTION__);
+
     if (!mSecureSession.Grab(session))
     {
         // Got an invalid session, just dispatch an error.  We have to do this

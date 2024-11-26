@@ -20,6 +20,8 @@
 #include "app-common/zap-generated/ids/Commands.h"
 #include "app-common/zap-generated/cluster-objects.h"
 #include "lib/core/CHIPError.h"
+#include "../matter_2.2.2/src/messaging/ExchangeMgr.h"
+#include "../matter_2.2.2/src/transport/Session.h"
 
 CHIP_ERROR InitBindingHandler();
 void SwitchWorkerFunction(intptr_t context);
@@ -31,4 +33,12 @@ struct BindingCommandData
     chip::CommandId commandId;
     chip::ClusterId clusterId;
     bool isGroup = false;
+};
+
+struct SubscribeData
+{
+  chip::EndpointId localEndpointId;
+  chip::ClusterId clusterId;
+  chip::Messaging::ExchangeManager * exchangeMgr;
+  chip::SessionHandle * sessionHandle;
 };

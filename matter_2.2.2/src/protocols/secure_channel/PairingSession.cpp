@@ -67,6 +67,8 @@ void PairingSession::Finish()
         // notifications.
         auto * delegate = mDelegate;
         mDelegate       = nullptr;
+
+        ChipLogDetail(Inet, "PairingSession :: %s Start to activate OnSessionEstablished",__FUNCTION__);
         delegate->OnSessionEstablished(mSecureSessionHolder.Get().Value());
     }
     else
