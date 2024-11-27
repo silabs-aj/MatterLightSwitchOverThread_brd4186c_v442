@@ -267,6 +267,44 @@ CHIP_ERROR GroupToggleSwitchCommandHandler(int argc, char ** argv)
     return CHIP_NO_ERROR;
 }
 
+/** Snippet on Binding table access
+
+   BindingTable :: GetInstance().LoadFromStorage();
+
+    auto node = BindingTable :: GetInstance().GetAt(0).nodeId;
+    streamer_printf(streamer_get(), "nodeid =  %d\n", node);
+
+  for (const EmberBindingTableEntry & entry: BindingTable::GetInstance())
+  {
+      streamer_printf(streamer_get(), "nodeid =  %d\n", entry.nodeId);
+      streamer_printf(streamer_get(), "fabricindex =  %d\n", entry.fabricIndex);
+  }
+
+
+   BindingManager BindingMgr = chip::BindingManager::GetInstance();
+  CASESessionManager caseSessionMgr = chip::Server::GetInstance().GetCASESessionManager();
+
+  const EmberBindingTableEntry & entry = BindingTable :: GetInstance().GetAt(0);
+
+    ScopedNodeId peerNode = ScopedNodeId(entry.nodeId,entry.fabricIndex);
+
+    BindingMgr.UnicastBindingCreated(entry.fabricIndex,entry.nodeId);
+
+    streamer_printf(streamer_get(),"argv input: %s\n", (argv[0]));
+    streamer_printf(streamer_get(),"argv input: %s\n", *(argv[1]));
+    streamer_printf(streamer_get(),"argv input: %s\n", *(argv[2]));
+    streamer_printf(streamer_get(),"argv input: %s\n", *(argv[3]));
+
+    while(count < argc){
+          error = streamer_init(streamer_get());
+          streamer_printf(streamer_get(),"argv input: %s\n", *(argv[count]));
+          count++;
+      }
+ */
+
+
+
+
 CHIP_ERROR SubscribeHandler(int argc,char **argv)
 {
 //  chip::Messaging::ExchangeManager * exchangeMgr;
@@ -275,38 +313,13 @@ CHIP_ERROR SubscribeHandler(int argc,char **argv)
   int error = streamer_init(streamer_get());
   streamer_printf(streamer_get(), "\n",error);
 
-  BindingTable :: GetInstance().LoadFromStorage();
+  auto & server = chip::Server::GetInstance();
 
-//    auto node = BindingTable :: GetInstance().GetAt(0).nodeId;
-//    streamer_printf(streamer_get(), "nodeid =  %d\n", node);
-/*
-  for (const EmberBindingTableEntry & entry: BindingTable::GetInstance())
-  {
-      streamer_printf(streamer_get(), "nodeid =  %d\n", entry.nodeId);
-      streamer_printf(streamer_get(), "fabricindex =  %d\n", entry.fabricIndex);
-  }
-*/
+  chip::ShellSessionManagerInitParams params = {203,1,&server.GetFabricTable(), server.GetCASESessionManager()};
 
-  BindingManager BindingMgr = chip::BindingManager::GetInstance();
-//CASESessionManager caseSessionMgr = chip::Server::GetInstance().GetCASESessionManager();
+  chip::ShellSessionManager::GetInstance().Init(params);
 
-  const EmberBindingTableEntry & entry = BindingTable :: GetInstance().GetAt(0);
 
-//ScopedNodeId peerNode = ScopedNodeId(entry.nodeId,entry.fabricIndex);
-
-  BindingMgr.UnicastBindingCreated(entry.fabricIndex,entry.nodeId);
-
-//      streamer_printf(streamer_get(),"argv input: %s\n", (argv[0]));
-//    streamer_printf(streamer_get(),"argv input: %s\n", *(argv[1]));
-//    streamer_printf(streamer_get(),"argv input: %s\n", *(argv[2]));
-//    streamer_printf(streamer_get(),"argv input: %s\n", *(argv[3]));
-/*
-      while(count < argc){
-          error = streamer_init(streamer_get());
-          streamer_printf(streamer_get(),"argv input: %s\n", *(argv[count]));
-          count++;
-      }
-*/
       return CHIP_NO_ERROR;
  }
 
