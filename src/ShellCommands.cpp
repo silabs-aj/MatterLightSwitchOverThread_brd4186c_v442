@@ -304,32 +304,45 @@ CHIP_ERROR GroupToggleSwitchCommandHandler(int argc, char ** argv)
 
 
 
-
-CHIP_ERROR SubscribeHandler(int argc,char **argv)
-{
 //  chip::Messaging::ExchangeManager * exchangeMgr;
 //  chip::SessionHandle * sessionHandle;
 
+/*
+  streamer_printf(streamer_get(), "\narg nums  = %d",argc);
+
+  uint8_t i;
+
+  for(i=0;i<argc;i++){
+      streamer_printf(streamer_get(), "\narg %d = %d",i,atoi(argv[i]));
+  }
+*/
+
+
+CHIP_ERROR SubscribeHandler(int argc,char **argv)
+{
+
+  VerifyOrReturnError(argc == 7, CHIP_ERROR_INVALID_ARGUMENT);
   int error = streamer_init(streamer_get());
-  streamer_printf(streamer_get(), "\n",error);
+  streamer_printf(streamer_get(), "\nAcquire Stream:%s",error == 0 ? "Success" : "Failure");
+
 
   auto & server = chip::Server::GetInstance();
 
-  chip::ShellSessionManagerInitParams params = {203,1,&server.GetFabricTable(), server.GetCASESessionManager()};
+  app::ConcreteAttributePath attrPath = {atoi(argv[2]),atoi(argv[3]),atoi(argv[4])};
+  chip::ShellSessionManagerInitParams params = {atoi(argv[0]),atoi(argv[1]),attrPath,atoi(argv[5]),atoi(argv[6]),&server.GetFabricTable(), server.GetCASESessionManager()};
 
   chip::ShellSessionManager::GetInstance().Init(params);
-
 
       return CHIP_NO_ERROR;
  }
 
 CHIP_ERROR setupCASESessionHandler(int argc, char ** argv)
 {
-    auto & server = chip::Server::GetInstance();
+//    auto & server = chip::Server::GetInstance();
 
-    chip::ShellSessionManagerInitParams params = {203,1,&server.GetFabricTable(), server.GetCASESessionManager()};
+//    chip::ShellSessionManagerInitParams params = {203,1,&server.GetFabricTable(), server.GetCASESessionManager()};
 
-    chip::ShellSessionManager::GetInstance().Init(params);
+//    chip::ShellSessionManager::GetInstance().Init(params);
 
     return CHIP_NO_ERROR;
 }
