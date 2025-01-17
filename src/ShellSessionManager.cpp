@@ -66,7 +66,7 @@ void ShellSessionManager::HandleDeviceConnected(Messaging::ExchangeManager & exc
 {
     ChipLogProgress(NotSpecified,"ShellSessionManager::%s",__FUNCTION__);
 
-    ChipLogProgress(NotSpecified,"ShellSessionManager::%s, Peer Nodeid = %2x:",__FUNCTION__,sessionHandle->GetPeer().GetNodeId());
+    ChipLogProgress(NotSpecified,"ShellSessionManager::%s, Peer Nodeid = %x:",__FUNCTION__,sessionHandle->GetPeer().GetNodeId());
 
     auto onSuccess = [](const app::ConcreteCommandPath & commandPath, const app::StatusIB & status, const auto & dataResponse) {
          ChipLogProgress(NotSpecified, "OnOff command succeeds");
@@ -92,11 +92,17 @@ void ShellSessionManager::HandleDeviceConnected(Messaging::ExchangeManager & exc
                  ChipLogProgress(NotSpecified,"%s :: onDone",__func__);
      };
 
+     Controller::SubscribeAttribute<app::Clusters::OnOff::Attributes::OnOff::TypeInfo::DecodableType>(&exchangeMgr,sessionHandle,mInitParams.attrPath.mEndpointId,
+                                                                                                                             mInitParams.attrPath.mClusterId,
+                                                                                                                             mInitParams.attrPath.mAttributeId,
+                                                                                                                             onReportAttribute,nullptr,mInitParams.mMin,mInitParams.mMax,nullptr,nullptr,true,onDone);
 
-     Controller::SubscribeAttribute<app::Clusters::OnOff::Attributes::OnOff::TypeInfo::Type>(&exchangeMgr,sessionHandle,mInitParams.attrPath.mEndpointId,
+/*
+     Controller::SubscribeAttribute<app::Clusters::OnOff::Attributes::OnOff::TypeInfo::DecodableType>(&exchangeMgr,sessionHandle,mInitParams.attrPath.mEndpointId,
                                                                                                                         mInitParams.attrPath.mClusterId,
                                                                                                                         mInitParams.attrPath.mAttributeId,
-                                                                                                                        onReportAttribute,nullptr,0,10,nullptr,nullptr,true,onDone);
+                                                                                                                        onReportAttribute,nullptr,mInitParams.mMin,mInitParams.mMax,nullptr,nullptr,true,onDone);
+*/
 }
 
 void ShellSessionManager::HandleDeviceConnectionFailure(const ScopedNodeId & peerId, CHIP_ERROR error)

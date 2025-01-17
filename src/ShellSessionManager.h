@@ -12,8 +12,8 @@ struct ShellSessionManagerInitParams
       NodeId  nodeId;
       FabricIndex fabricIndex;
       app::ConcreteAttributePath attrPath;
-      uint16_t mMax;
       uint16_t mMin;
+      uint16_t mMax;
       FabricTable * mFabricTable               = nullptr;
       CASESessionManager * mCASESessionManager = nullptr;
 //      PersistentStorageDelegate * mStorage     = nullptr;

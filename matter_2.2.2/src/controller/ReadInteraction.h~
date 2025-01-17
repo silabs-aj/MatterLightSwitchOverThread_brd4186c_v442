@@ -168,6 +168,7 @@ CHIP_ERROR SubscribeAttribute(
     typename detail::SubscriptionOnDoneCallback onDoneCb = nullptr)
 {
     ChipLogProgress(NotSpecified,"Helper of SubscribeAttribute\n");
+    std::cout << "Wrapper of SubscribeAttribute"<<std::endl;
     detail::ReportAttributeParams<DecodableAttributeType> params(sessionHandle);
     params.mOnReportCb                  = onReportCb;
     params.mOnErrorCb                   = onErrorCb;
