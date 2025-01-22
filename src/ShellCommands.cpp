@@ -51,6 +51,7 @@ Engine sShellSwitchGroupsOnOffSubCommands;
 Engine sShellSwitchSubscribeSubCommands;
 
 Engine sShellSwitchBindingSubCommands;
+Engine sShellSwitchLevelControlSubCommands;
 
 /********************************************************
  * Switch shell functions
@@ -64,9 +65,9 @@ CHIP_ERROR SwitchHelpHandler(int argc, char ** argv)
 
 CHIP_ERROR BindingTableBrowseHandler(int argc,char ** argv)
 {
-    int error = streamer_init(streamer_get());
+    streamer_init(streamer_get());
 
-   streamer_printf(streamer_get(), "%d\n",error);
+
 //    streamer_printf(streamer_get(), "hello binding reader\n");
 //    auto table = BindingTable :: GetInstance().LoadStorage();
     BindingTable :: GetInstance().LoadFromStorage();
@@ -76,8 +77,10 @@ CHIP_ERROR BindingTableBrowseHandler(int argc,char ** argv)
 
     for (const EmberBindingTableEntry & entry : BindingTable::GetInstance())
     {
-        streamer_printf(streamer_get(), "nodeid =  %d\n", entry.nodeId);
-        streamer_printf(streamer_get(), "fabricindex =  %d\n", entry.fabricIndex);
+        streamer_printf(streamer_get(), "NodeId =  %d\n", entry.nodeId);
+        streamer_printf(streamer_get(), "ClusterId = %d\n",entry.clusterId.Value());
+        streamer_printf(streamer_get(), "EndpointId = %d\n",entry.local);
+        streamer_printf(streamer_get(), "FabricIndex =  %d\n", entry.fabricIndex);
     } 
 
     return CHIP_NO_ERROR;
@@ -336,15 +339,25 @@ CHIP_ERROR SubscribeHandler(int argc,char **argv)
       return CHIP_NO_ERROR;
  }
 
-CHIP_ERROR setupCASESessionHandler(int argc, char ** argv)
+CHIP_ERROR LevelControlCommandHandler(int argc, char ** argv)
 {
-//    auto & server = chip::Server::GetInstance();
 
-//    chip::ShellSessionManagerInitParams params = {203,1,&server.GetFabricTable(), server.GetCASESessionManager()};
+  int error = streamer_init(streamer_get());
+   streamer_printf(streamer_get(), "\nAcquire Stream:%s",error == 0 ? "Success" : "Failure");
 
-//    chip::ShellSessionManager::GetInstance().Init(params);
+   BindingCommandData * data = Platform::New<BindingCommandData>();
+       data->commandId           = Clusters::LevelControl::Commands::Step::Id;
+       data->clusterId           = Clusters::LevelControl::Id;
 
-    return CHIP_NO_ERROR;
+
+       data->isGroup             = false;
+
+       DeviceLayer::PlatformMgr().ScheduleWork(SwitchWorkerFunction, reinterpret_cast<intptr_t>(data));
+       return CHIP_NO_ERROR;
+
+
+
+//   return sShellSwitchLevelControlSubCommands.ExecCommand(argc, argv);
 }
 
 CHIP_ERROR SubscribeHelpHandler(int argc, char ** argv)
@@ -352,6 +365,13 @@ CHIP_ERROR SubscribeHelpHandler(int argc, char ** argv)
     sShellSwitchSubscribeSubCommands.ForEachCommand(Shell::PrintCommandHelp, nullptr);
     return CHIP_NO_ERROR;
 }
+
+CHIP_ERROR LevelControlHelpHandler(int argc, char ** argv)
+{
+    sShellSwitchLevelControlSubCommands.ForEachCommand(Shell::PrintCommandHelp, nullptr);
+    return CHIP_NO_ERROR;
+}
+
 
 
 /**
@@ -362,10 +382,11 @@ void RegisterSwitchCommands()
     static const shell_command_t sSwitchSubCommands[] = {
         { &SwitchHelpHandler, "help", "Usage: switch <subcommand>" },
         { &OnOffSwitchCommandHandler, "onoff", " Usage: switch onoff <subcommand>" },
+        { &LevelControlCommandHandler, "level-control", "Usage: switch level-control <node id> <endpoint>" },
         { &GroupsSwitchCommandHandler, "groups", "Usage: switch groups <subcommand>" },
         { &BindingSwitchCommandHandler, "binding", "Usage: switch binding <subcommand>" },
         { &SubscribeHandler, "subscribe", "Usage: switch subscribe  <node id> <endpoint>" },
-        { &setupCASESessionHandler, "setup", "Usage: switch setup  <node id> <endpoint>" }
+
     };
 
     static const shell_command_t sSwitchOnOffSubCommands[] = {
@@ -398,8 +419,15 @@ void RegisterSwitchCommands()
             { &SubscribeHandler, "subscribe", "Usage: switch subscribe  <node id> <endpoint>" }
         };
 
+    static const shell_command_t sLevelControlCommand[] = {
+            { &LevelControlCommandHandler, "step", "Usage: switch level-control <subcommand>" },
+            { &LevelControlHelpHandler,"help","Usage switch level-control help "}};
+
     static const shell_command_t sSwitchCommand = { &SwitchCommandHandler, "switch",
                                                     "Light-switch commands. Usage: switch <subcommand>" };
+
+
+
 
     sShellSwitchGroupsOnOffSubCommands.RegisterCommands(sSwitchGroupsOnOffSubCommands, ArraySize(sSwitchGroupsOnOffSubCommands));
     sShellSwitchOnOffSubCommands.RegisterCommands(sSwitchOnOffSubCommands, ArraySize(sSwitchOnOffSubCommands));
@@ -407,6 +435,7 @@ void RegisterSwitchCommands()
     sShellSwitchBindingSubCommands.RegisterCommands(sSwitchBindingSubCommands, ArraySize(sSwitchBindingSubCommands));
     sShellSwitchSubCommands.RegisterCommands(sSwitchSubCommands, ArraySize(sSwitchSubCommands));
     sShellSwitchSubscribeSubCommands.RegisterCommands(sSwitchSubscribeSubCommands, ArraySize(sSwitchSubscribeSubCommands));
+    sShellSwitchLevelControlSubCommands.RegisterCommands(sLevelControlCommand,ArraySize(sLevelControlCommand));
 
     Engine::Root().RegisterCommands(&sSwitchCommand, 1);
 }

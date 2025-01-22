@@ -75,18 +75,55 @@ void ProcessOnOffUnicastBindingCommand(CommandId commandId, const EmberBindingTa
 
 //        Controller::SubscribeAttribute<Clusters::OnOff::Attributes::OnOff::TypeInfo::Type>(exchangeMgr,sessionHandle,binding.remote,binding.clusterId.Value(),0,onReportAttribute,nullptr,1,60,nullptr,nullptr,true,onDone);
 //        ChipLogProgress(NotSpecified, "Send SubscribeAttribute");
-        Controller::InvokeCommandRequest(exchangeMgr, sessionHandle, binding.remote, toggleCommand, onSuccess, onFailure);
+
+        Controller::InvokeCommandRequest<Clusters::OnOff::Commands::Toggle::Type>(exchangeMgr, sessionHandle, binding.remote, toggleCommand, onSuccess, onFailure);
         break;
 
     case Clusters::OnOff::Commands::On::Id:
         Clusters::OnOff::Commands::On::Type onCommand;
-        Controller::InvokeCommandRequest(exchangeMgr, sessionHandle, binding.remote, onCommand, onSuccess, onFailure);
+        Controller::InvokeCommandRequest<Clusters::OnOff::Commands::On::Type>(exchangeMgr, sessionHandle, binding.remote, onCommand, onSuccess, onFailure);
         break;
 
     case Clusters::OnOff::Commands::Off::Id:
         Clusters::OnOff::Commands::Off::Type offCommand;
-        Controller::InvokeCommandRequest(exchangeMgr, sessionHandle, binding.remote, offCommand, onSuccess, onFailure);
+        Controller::InvokeCommandRequest<Clusters::OnOff::Commands::Off::Type>(exchangeMgr, sessionHandle, binding.remote, offCommand, onSuccess, onFailure);
         break;
+    }
+}
+
+void ProcessLevelControlUnicastBindingCommand(CommandId commandId, const EmberBindingTableEntry & binding,
+                                       Messaging::ExchangeManager * exchangeMgr, const SessionHandle & sessionHandle)
+{
+    auto onSuccess = [](const ConcreteCommandPath & commandPath, const StatusIB & status, const auto & dataResponse) {
+        ChipLogProgress(NotSpecified, "Level Control command succeeds");
+        ChipLogProgress(NotSpecified, "dataResonse : %s ",typeid(dataResponse).name());
+    };
+
+    auto onFailure = [](CHIP_ERROR error) {
+        ChipLogError(NotSpecified, "Level Control command failed: %" CHIP_ERROR_FORMAT, error.Format());
+    };
+
+
+
+    switch (commandId)
+    {
+    case Clusters::LevelControl::Commands::Step::Id:
+         Clusters::LevelControl::Commands::Step::Type stepCommand;
+
+
+        Controller::InvokeCommandRequest<Clusters::LevelControl::Commands::Step::Type>(exchangeMgr, sessionHandle, binding.remote, stepCommand, onSuccess, onFailure);
+        break;
+/*
+    case Clusters::OnOff::Commands::On::Id:
+        Clusters::OnOff::Commands::On::Type onCommand;
+        Controller::InvokeCommandRequest<Clusters::OnOff::Commands::On::Type>(exchangeMgr, sessionHandle, binding.remote, onCommand, onSuccess, onFailure);
+        break;
+
+    case Clusters::OnOff::Commands::Off::Id:
+        Clusters::OnOff::Commands::Off::Type offCommand;
+        Controller::InvokeCommandRequest<Clusters::OnOff::Commands::Off::Type>(exchangeMgr, sessionHandle, binding.remote, offCommand, onSuccess, onFailure);
+        break;
+*/
     }
 }
 
@@ -138,6 +175,12 @@ void LightSwitchChangedHandler(const EmberBindingTableEntry & binding, Operation
             ProcessOnOffUnicastBindingCommand(data->commandId, binding, peer_device->GetExchangeManager(),
                                               peer_device->GetSecureSession().Value());
             break;
+
+        case Clusters::LevelControl::Id:
+             VerifyOrDie(peer_device != nullptr && peer_device->ConnectionReady());
+             ProcessLevelControlUnicastBindingCommand(data->commandId, binding, peer_device->GetExchangeManager(),
+                                                      peer_device->GetSecureSession().Value());
+             break;
         }
     }
 }
@@ -168,6 +211,9 @@ void SwitchWorkerFunction(intptr_t context)
     VerifyOrReturn(context != 0, ChipLogError(NotSpecified, "SwitchWorkerFunction - Invalid work data"));
 
     BindingCommandData * data = reinterpret_cast<BindingCommandData *>(context);
+
+    ChipLogError(NotSpecified, "clusterId = %d,endpoint = %d ",data->clusterId,data->localEndpointId);
+
     BindingManager::GetInstance().NotifyBoundClusterChanged(data->localEndpointId, data->clusterId, static_cast<void *>(data));
 }
 

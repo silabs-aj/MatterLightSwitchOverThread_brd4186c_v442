@@ -2405,7 +2405,7 @@ public:
     static constexpr ClusterId GetClusterId() { return Clusters::LevelControl::Id; }
 
     StepMode stepMode     = static_cast<StepMode>(0);
-    uint8_t stepSize     = static_cast<uint8_t>(0);
+    uint8_t stepSize     = static_cast<uint8_t>(1);
     DataModel::Nullable<uint16_t> transitionTime ;
     chip::BitMask<LevelControlOptions> optionsMask     = static_cast<chip::BitMask<LevelControlOptions>>(0);
     chip::BitMask<LevelControlOptions> optionsOverride     = static_cast<chip::BitMask<LevelControlOptions>>(0);

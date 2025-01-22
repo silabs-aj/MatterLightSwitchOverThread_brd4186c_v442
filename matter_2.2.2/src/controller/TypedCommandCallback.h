@@ -104,6 +104,9 @@ void TypedCommandCallback<CommandResponseObjectT>::OnResponse(app::CommandSender
                                                               const app::ConcreteCommandPath & aCommandPath,
                                                               const app::StatusIB & aStatus, TLV::TLVReader * aReader)
 {
+
+    ChipLogProgress(NotSpecified,"OnResponse for ResponseType is CommandResponseObjectT");
+
     if (mCalledCallback)
     {
         return;
@@ -150,6 +153,8 @@ inline void TypedCommandCallback<app::DataModel::NullObjectType>::OnResponse(app
                                                                              const app::StatusIB & aStatus,
                                                                              TLV::TLVReader * aReader)
 {
+    ChipLogProgress(NotSpecified,"OnResponse for ResponseType is NullObjectType");
+
     if (mCalledCallback)
     {
         return;

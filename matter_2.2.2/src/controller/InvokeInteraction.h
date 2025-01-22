@@ -51,6 +51,7 @@ InvokeCommandRequest(Messaging::ExchangeManager * aExchangeMgr, const SessionHan
                      const Optional<uint16_t> & timedInvokeTimeoutMs,
                      const Optional<System::Clock::Timeout> & responseTimeout = NullOptional)
 {
+    ChipLogProgress(NotSpecified,"Invoke template finally");
     // InvokeCommandRequest expects responses, so cannot happen over a group session.
     VerifyOrReturnError(!sessionHandle->IsGroupSession(), CHIP_ERROR_INVALID_ARGUMENT);
 
@@ -138,6 +139,7 @@ InvokeCommandRequest(Messaging::ExchangeManager * exchangeMgr, const SessionHand
                      typename TypedCommandCallback<typename RequestObjectT::ResponseType>::OnErrorCallbackType onErrorCb,
                      const Optional<System::Clock::Timeout> & responseTimeout = NullOptional)
 {
+    ChipLogProgress(NotSpecified,"Invoke template with MustUseTimedInvoke disabled");
     return InvokeCommandRequest(exchangeMgr, sessionHandle, endpointId, requestCommandData, onSuccessCb, onErrorCb, NullOptional,
                                 responseTimeout);
 }

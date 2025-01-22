@@ -179,6 +179,8 @@ CHIP_ERROR BindingManager::NotifyBoundClusterChanged(EndpointId endpoint, Cluste
     VerifyOrReturnError(mInitParams.mFabricTable != nullptr, CHIP_ERROR_INCORRECT_STATE);
     VerifyOrReturnError(mBoundDeviceChangedHandler != nullptr, CHIP_ERROR_HANDLER_NOT_SET);
 
+    ChipLogProgress(AppServer,"NotifyBoundClusterChanged");
+
     CHIP_ERROR error      = CHIP_NO_ERROR;
     auto * bindingContext = mPendingNotificationMap.NewPendingNotificationContext(context);
     VerifyOrReturnError(bindingContext != nullptr, CHIP_ERROR_NO_MEMORY);
@@ -187,6 +189,8 @@ CHIP_ERROR BindingManager::NotifyBoundClusterChanged(EndpointId endpoint, Cluste
 
     for (auto iter = BindingTable::GetInstance().begin(); iter != BindingTable::GetInstance().end(); ++iter)
     {
+        ChipLogProgress(AppServer,"clusterId = %d ",iter->clusterId.Value());
+        iter->clusterId.SetValue(8);
         if (iter->local == endpoint && (!iter->clusterId.HasValue() || iter->clusterId.Value() == cluster))
         {
             if (iter->type == EMBER_UNICAST_BINDING)
